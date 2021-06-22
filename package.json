@@ -17,7 +17,8 @@
     },
     "scripts": {
         "serve": "browser-sync start --server --files 'game.html'",
-        "build": "esbuild script.js --bundle --minify --sourcemap --target=chrome58,firefox57,safari11,edge16 --outfile=dist/script.js"
+        "build": "esbuild script.js --bundle --minify --sourcemap --target=chrome58,firefox57,safari11,edge16 --outfile=dist/script.js",
+        "watch": "npm run build -- --watch"
     },
     "keywords": [],
     "author": "Jean-Louis",

@@ -21,11 +21,11 @@ const config = {
 let player;
 let stars;
 let bombs;
-let platform;
+let platforms;
 let cursors;
+let scoreText;
 let score = 0;
 let gameOver = false;
-let scoreText;
 
 const game = new Phaser.Game(config);
 
@@ -116,6 +116,7 @@ function update() {
     if (gameOver) {
         return;
     }
+
     // Controlling the player with the keyboard
     if (cursors.left.isDown) {
         player.setVelocityX(-160);
@@ -139,7 +140,6 @@ function collectStar(player, star) {
     score += 10;
     scoreText.setText("Score: " + score);
 
-    console.log(stars.countActive(true));
     if (stars.countActive(true) === 0) {
         //  A new batch of stars to collect
         stars.children.iterate(function (child) {
