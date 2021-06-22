@@ -16,10 +16,16 @@ const config = {
     },
 };
 
-const game = new Phaser.Game(config);
-
+let player;
+let stars;
+let bombs;
+let platform;
+let cursors;
 let score = 0;
+let gameOver = false;
 let scoreText;
+
+const game = new Phaser.Game(config);
 
 // load assets
 function preload() {
@@ -69,6 +75,7 @@ function create() {
         repeat: -1,
     });
 
+    // Keyboard inputs
     cursors = this.input.keyboard.createCursorKeys();
 
     // Add stars
@@ -82,19 +89,31 @@ function create() {
         child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
     });
 
-    this.physics.add.collider(player, platforms);
-    this.physics.add.collider(stars, platforms);
+    // Add bombs
+    bombs = this.physics.add.group();
 
-    this.physics.add.overlap(player, stars, collectStar, null, this);
-
-    // Score
+    // Display the Score
     scoreText = this.add.text(16, 16, "score: 0", {
         fontSize: "32px",
         fill: "#000",
     });
+
+    // collide the player and the stars with the plateforms
+    this.physics.add.collider(player, platforms);
+    this.physics.add.collider(stars, platforms);
+    this.physics.add.collider(bombs, platforms);
+
+    // check if the players overlaps with any stars
+    this.physics.add.overlap(player, stars, collectStar, null, this);
+
+    // check if the player has collided with any bombs
+    this.physics.add.collider(player, bombs, hitBomb, null, this);
 }
 
 function update() {
+    if (gameOver) {
+        return;
+    }
     // Controlling the player with the keyboard
     if (cursors.left.isDown) {
         player.setVelocityX(-160);
@@ -114,6 +133,36 @@ function update() {
 function collectStar(player, star) {
     star.disableBody(true, true);
 
+    // update the score
     score += 10;
     scoreText.setText("Score: " + score);
+
+    console.log(stars.countActive(true));
+    if (stars.countActive(true) === 0) {
+        //  A new batch of stars to collect
+        stars.children.iterate(function (child) {
+            child.enableBody(true, child.x, 0, true, true);
+        });
+
+        const x =
+            player.x < 400
+                ? Phaser.Math.Between(400, 800)
+                : Phaser.Math.Between(0, 400);
+
+        const bomb = bombs.create(x, 16, "bomb");
+        bomb.setBounce(1);
+        bomb.setCollideWorldBounds(true);
+        bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+        bomb.allowGravity = false;
+    }
+}
+
+function hitBomb(player, bomb) {
+    this.physics.pause();
+
+    player.setTint(0xff0000);
+
+    player.anims.play("turn");
+
+    gameOver = true;
 }
