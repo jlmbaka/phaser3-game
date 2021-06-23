@@ -7,17 +7,17 @@ let bombs;
 let platforms;
 let cursors;
 let scoreText;
-let score = 0;
-let gameOver = false;
+let leaderboard;
 
 export default class GameScene extends Phaser.Scene {
     constructor() {
         super({ key: constants.scenes.game });
+        this.score = 0;
+        this.gameOver = false;
     }
 
     init(data) {
         console.log(data);
-        console.log("received");
     }
 
     preload() {
@@ -109,7 +109,7 @@ export default class GameScene extends Phaser.Scene {
     }
 
     update() {
-        if (gameOver) {
+        if (this.gameOver) {
             return;
         }
 
@@ -127,6 +127,10 @@ export default class GameScene extends Phaser.Scene {
         if (cursors.up.isDown && player.body.touching.down) {
             player.setVelocityY(-330);
         }
+
+        if (cursors.space.isDown) {
+            this.scene.start(constants.scenes.menu, { score: this.score });
+        }
     }
 }
 
@@ -134,8 +138,8 @@ function collectStar(player, star) {
     star.disableBody(true, true);
 
     // update the score
-    score += 10;
-    scoreText.setText("Score: " + score);
+    this.score += 10;
+    scoreText.setText("Score: " + this.score);
 
     if (stars.countActive(true) === 0) {
         //  A new batch of stars to collect
@@ -163,5 +167,5 @@ function hitBomb(player, bomb) {
 
     player.anims.play("turn");
 
-    gameOver = true;
+    this.gameOver = true;
 }
