@@ -2,7 +2,7 @@
     "name": "phaser3-tutorial-src",
     "version": "1.0.0",
     "description": "",
-    "main": "script.js",
+    "main": "main.js",
     "dependencies": {
         "esbuild": "^0.12.9",
         "eventemitter3": "^4.0.7",
@@ -16,8 +16,8 @@
         "browser-sync": "^2.26.14"
     },
     "scripts": {
-        "serve": "browser-sync start --server --files 'game.html'",
-        "build": "esbuild script.js --bundle --minify --sourcemap --target=chrome58,firefox57,safari11,edge16 --outfile=dist/script.js",
+        "serve": "browser-sync start --server --files 'index.html'",
+        "build": "esbuild main.js --bundle --minify --sourcemap --target=chrome58,firefox57,safari11,edge16 --outfile=dist/main.js",
         "watch": "npm run build -- --watch"
     },
     "keywords": [],
