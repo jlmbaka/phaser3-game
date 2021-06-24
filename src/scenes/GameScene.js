@@ -141,10 +141,10 @@ export default class GameScene extends Phaser.Scene {
             // toggle modal
             if (this.pauseMenu.isOpen) {
                 this.pauseMenu.hide();
-                this.scene.resume(constants.scenes.game);
+                // this.scene.resume();
             } else {
                 this.pauseMenu.show();
-                // this.scene.pause(constants.scenes.game);
+                // this.scene.pause();
             }
         }
     }

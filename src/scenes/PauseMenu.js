@@ -16,18 +16,27 @@ export default class PauseMenu {
                 0,
                 0,
                 width * 0.9,
-                height * 0.9,
+                height * 0.8,
                 constants.textures.uiPanel,
                 0
             )
             .setOrigin(1, 0);
 
-        // const text = scene.add.text(10, 10, "Menu", {
-        //     color: "black",
-        //     fontSize: 28,
-        // });
-        // this.container.add(text);
+        const text = scene.add
+            .text(
+                -width / 2 + 56,
+                height / 2 - 56,
+                "Paused.\nPress Space to resume",
+                {
+                    color: "white",
+                    fontSize: 28,
+                    align: "center",
+                }
+            )
+            .setOrigin(0.5);
+
         this.container.add(panel);
+        this.container.add(text);
     }
 
     show() {
