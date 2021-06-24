@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import constants from "../constants";
 import PauseMenu from "./PauseMenu";
+import CountdownController from "./CountdownController";
 
 export default class Game extends Phaser.Scene {
     player;
@@ -10,6 +11,9 @@ export default class Game extends Phaser.Scene {
     cursors;
     scoreText;
     leaderboard;
+    /** @type {CountdownController} */
+    countdown;
+
     constructor() {
         super({ key: constants.scenes.game });
         this.score = 0;
@@ -35,6 +39,7 @@ export default class Game extends Phaser.Scene {
         this.createStars();
         this.createBombs();
         this.createScoreText();
+        this.createCountDown();
 
         // collide the player and the stars with the plateforms
         this.physics.add.collider(this.player, this.platforms);
@@ -100,6 +105,24 @@ export default class Game extends Phaser.Scene {
         });
     }
 
+    createCountDown() {
+        const { width } = this.scale;
+        const timerLabel = this.add
+            .text(width * 0.5, 50, "45", { fontSize: 48 })
+            .setOrigin(0.5);
+        this.countdown = new CountdownController(this, timerLabel);
+        this.countdown.start(this.handleCountdownFinished.bind(this));
+    }
+
+    handleCountdownFinished() {
+        // disable player
+        // this.player.active = false;
+        // this.player.setVelocity(0, 0);
+        this.physics.pause();
+        // create a GameOver Message
+        this.displayGameOverText("Time up!");
+    }
+
     update() {
         if (this.gameOver) {
             this.displayGameOverText();
@@ -107,6 +130,7 @@ export default class Game extends Phaser.Scene {
         }
         this.updatePlayerPosition();
         this.handlePauseMenuUpdate();
+        this.countdown.update();
     }
 
     updatePlayerPosition() {
@@ -176,11 +200,11 @@ export default class Game extends Phaser.Scene {
         this.gameOver = true;
     }
 
-    displayGameOverText() {
+    displayGameOverText(message = "Game Over!") {
         // add a You Game Over! text
         const { width, height } = this.scale;
         this.add
-            .text(width * 0.5, height * 0.5, "Game Over!", {
+            .text(width * 0.5, height * 0.5, message, {
                 fontSize: 48,
                 color: "red",
             })
