@@ -1,4 +1,6 @@
 import Phaser from "phaser";
+import { Plugin as NineSlicePlugin } from "phaser3-nineslice";
+
 import MenuScene from "./src/scenes/MenuScene";
 import GameScene from "./src/scenes/GameScene";
 
@@ -13,7 +15,11 @@ const config = {
             debug: false,
         },
     },
+    plugins: {
+        global: [NineSlicePlugin.DefaultCfg],
+    },
     scene: [MenuScene, GameScene],
 };
 
 const game = new Phaser.Game(config);
+export default game;

@@ -3,4 +3,7 @@ export default {
         game: "game",
         menu: "load",
     },
+    textures: {
+        uiPanel: "ui-panel",
+    },
 };

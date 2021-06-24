@@ -32,8 +32,6 @@ export default class MenuScene extends Phaser.Scene {
     update() {
         if (this.cursors.space.isDown) {
             this.scene.start(constants.scenes.game);
-            this.scene.launch();
-            this.viewMenuCount += 1;
         }
     }
 }

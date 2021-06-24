@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import constants from "../constants";
+import PauseMenu from "../scenes/PauseMenu";
 
 let player;
 let stars;
@@ -14,6 +15,8 @@ export default class GameScene extends Phaser.Scene {
         super({ key: constants.scenes.game });
         this.score = 0;
         this.gameOver = false;
+        this.gameStart = true;
+        this.pauseMenu = undefined;
     }
 
     init(data) {
@@ -25,10 +28,13 @@ export default class GameScene extends Phaser.Scene {
         this.load.image("ground", "assets/platform.png");
         this.load.image("star", "assets/star.png");
         this.load.image("bomb", "assets/bomb.png");
+        this.load.image(constants.textures.uiPanel, "assets/ui-panel-2.png");
         this.load.spritesheet("dude", "assets/dude.png", {
             frameWidth: 32,
             frameHeight: 48,
         });
+
+        this.spaceKey = this.input.keyboard.addKey("space");
     }
 
     create() {
@@ -106,6 +112,9 @@ export default class GameScene extends Phaser.Scene {
 
         // check if the player has collided with any bombs
         this.physics.add.collider(player, bombs, hitBomb, null, this);
+
+        // add the menu
+        this.pauseMenu = new PauseMenu(this);
     }
 
     update() {
@@ -128,8 +137,15 @@ export default class GameScene extends Phaser.Scene {
             player.setVelocityY(-330);
         }
 
-        if (cursors.space.isDown) {
-            this.scene.start(constants.scenes.menu, { score: this.score });
+        if (Phaser.Input.Keyboard.JustDown(this.spaceKey)) {
+            // toggle modal
+            if (this.pauseMenu.isOpen) {
+                this.pauseMenu.hide();
+                this.scene.resume(constants.scenes.game);
+            } else {
+                this.pauseMenu.show();
+                // this.scene.pause(constants.scenes.game);
+            }
         }
     }
 }
