@@ -1,6 +1,5 @@
 import Phaser from "phaser";
 import constants from "../constants";
-import PauseMenu from "./PauseMenu";
 import CountdownController from "./CountdownController";
 
 export default class Game extends Phaser.Scene {
@@ -19,7 +18,6 @@ export default class Game extends Phaser.Scene {
         this.score = 0;
         this.gameOver = false;
         this.gameStart = true;
-        this.pauseMenu = undefined;
     }
 
     init(data) {
@@ -28,9 +26,7 @@ export default class Game extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
     }
 
-    preload() {
-        this.spaceKey = this.input.keyboard.addKey("space");
-    }
+    preload() {}
 
     create() {
         this.add.image(400, 300, "sky");
@@ -64,8 +60,8 @@ export default class Game extends Phaser.Scene {
             this
         );
 
-        // add the menu
-        this.pauseMenu = new PauseMenu(this);
+        // launch the menu
+        this.scene.launch(constants.scenes.ui);
     }
 
     createPlatform() {
@@ -129,7 +125,7 @@ export default class Game extends Phaser.Scene {
             return;
         }
         this.updatePlayerPosition();
-        this.handlePauseMenuUpdate();
+        // TODO: increase time by 10 when start is collected
         this.countdown.update();
     }
 
@@ -147,19 +143,6 @@ export default class Game extends Phaser.Scene {
         }
         if (this.cursors.up.isDown && this.player.body.touching.down) {
             this.player.setVelocityY(-330);
-        }
-    }
-
-    handlePauseMenuUpdate() {
-        if (Phaser.Input.Keyboard.JustDown(this.spaceKey)) {
-            // toggle modal
-            if (this.pauseMenu.isOpen) {
-                this.pauseMenu.hide();
-                // this.scene.resume();
-            } else {
-                this.pauseMenu.show();
-                // this.scene.pause();
-            }
         }
     }
 

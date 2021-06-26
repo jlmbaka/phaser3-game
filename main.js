@@ -2,8 +2,9 @@ import Phaser from "phaser";
 import { Plugin as NineSlicePlugin } from "phaser3-nineslice";
 
 // import MenuScene from "./src/scenes/Menu";
-import GameScene from "./src/scenes/Game";
+import Game from "./src/scenes/Game";
 import Preloader from "./src/scenes/Preloader";
+import UIScene from "./src/scenes/UIScene";
 
 const config = {
     type: Phaser.AUTO,
@@ -19,8 +20,7 @@ const config = {
     plugins: {
         global: [NineSlicePlugin.DefaultCfg],
     },
-    scene: [Preloader, GameScene],
+    scene: [Preloader, Game, UIScene],
 };
 
-const game = new Phaser.Game(config);
-export default game;
+export default new Phaser.Game(config);

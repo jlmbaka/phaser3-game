@@ -14,12 +14,14 @@
         "util": "^0.10.4"
     },
     "devDependencies": {
-        "browser-sync": "^2.26.14"
+        "browser-sync": "^2.26.14",
+        "concurrently": "^6.2.0"
     },
     "scripts": {
         "serve": "browser-sync start --server --files 'index.html'",
         "build": "esbuild main.js --bundle --minify --sourcemap --target=esnext --outfile=dist/main.js",
-        "watch": "npm run build -- --watch"
+        "watch": "npm run build -- --watch",
+        "start": "concurrently \"npm:serve\" \"npm:watch\""
     },
     "keywords": [],
     "author": "Jean-Louis",
