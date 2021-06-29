@@ -1,4 +1,4 @@
-# Simple Phaser 3 Game
+# Simple Phaser 3 Platformer
 
 ## Table of Contents
 
@@ -7,7 +7,7 @@
 
 ## About <a name = "about"></a>
 
-Simple 2D plateforme game developped as a learning project for [Phase3](https://phaser.io/phaser3) game engine.
+Simple 2D platform game developped as a learning project for [Phase3](https://phaser.io/phaser3) game engine.
 
 ## Usage <a name = "usage"></a>
 
