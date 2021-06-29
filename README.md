@@ -7,18 +7,20 @@
 
 ## About <a name = "about"></a>
 
-Write about 1-2 paragraphs describing the purpose of your project.
+Simple 2D plateforme game developped as a learning project for [Phase3](https://phaser.io/phaser3) game engine.
 
 ## Usage <a name = "usage"></a>
 
-Build with `ESBuild`
+When you first download the repository, download the necessary NPM dependencies (defined in `package.json`) by running the following command:
 
 ```
-npm run build
+npm install
 ```
 
-Server with `Browser Sync`
+Then, start the game by running the following commands in the terminal
 
 ```
-
+npm run start
 ```
+
+This will concurrently build the game's Javascript's files, place them in a `dist` folder and start a server from the project root directory.
