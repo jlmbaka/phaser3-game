@@ -29,7 +29,8 @@ export default class Game extends Phaser.Scene {
     preload() {}
 
     create() {
-        this.add.image(400, 300, "sky");
+        // this.add.image(400, 300, "sky");
+        this.add.image(400, 300, "landscape");
         this.createPlatform();
         this.createPlayer();
         this.createStars();
@@ -107,7 +108,7 @@ export default class Game extends Phaser.Scene {
             .text(width * 0.5, 50, "45", { fontSize: 48 })
             .setOrigin(0.5);
         this.countdown = new CountdownController(this, timerLabel);
-        this.countdown.start(this.handleCountdownFinished.bind(this));
+        this.countdown.start(this.handleCountdownFinished.bind(this), 15000);
     }
 
     handleCountdownFinished() {
@@ -149,6 +150,12 @@ export default class Game extends Phaser.Scene {
     collectStar(player, star) {
         star.disableBody(true, true);
         this.updateScore();
+        const currentDuration = this.countdown.duration;
+        const timeBonus = 1000;
+        this.countdown.start(
+            this.handleCountdownFinished.bind(this),
+            currentDuration + timeBonus
+        );
         if (this.stars.countActive(true) === 0) {
             this.createNewBatchOfStars(player);
         }
